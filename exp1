@@ -1,0 +1,480 @@
+
+PRACTICAL NO : 01
+
+CREATION OF DATA WAREHOUSE :
+mysql> show databases;
++-----------------------------+
+| Database                    |
++-----------------------------+
+| accident                    |
+| employee_management_22dco05 |
+| icecream                    |
+| icecream_factory            |
+| information_schema          |
+| mysql                       |
+| performance_schema          |
+| sys                         |
++-----------------------------+
+8 rows in set (0.08 sec)
+
+mysql> use icecream_factory;
+Database changed
+
+mysql> CREATE TABLE PRODUCT( P_id int NOT NULL AUTO_INCREMENT , P_name varchar(20) NOT NULL , P_cost int(15) NOT NULL , P_details varchar(25) NOT NULL , M_date DATE NOT NULL , E_date DATE NOT NULL , PRIMARY KEY (P_id));Y (P_id));
+Query OK, 0 rows affected, 1 warning (0.26 sec)
+
+mysql> DESC PRODUCT;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| P_id      | int         | NO   | PRI | NULL    | auto_increment |
+| P_name    | varchar(20) | NO   |     | NULL    |                |
+| P_cost    | int         | NO   |     | NULL    |                |
+| P_details | varchar(25) | NO   |     | NULL    |                |
+| M_date    | date        | NO   |     | NULL    |                |
+| E_date    | date        | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+6 rows in set (0.04 sec)
+
+mysql> create table orders(o_id int NOT NULL AUTO_INCREMENT,0_name varchar(50) NOT NULL
+    -> , o_type varchar(50) NOT NULL ,price int(10) NOT NULL , PRIMARY KEY (o_id));
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+
+mysql> DESC ORDERS;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| o_id   | int         | NO   | PRI | NULL    | auto_increment |
+| 0_name | varchar(50) | NO   |     | NULL    |                |
+| o_type | varchar(50) | NO   |     | NULL    |                |
+| price  | int         | NO   |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> alter table orders ADD P_id int(10);
+Query OK, 0 rows affected, 1 warning (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> DESC ORDERS;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| o_id   | int         | NO   | PRI | NULL    | auto_increment |
+| 0_name | varchar(50) | NO   |     | NULL    |                |
+| o_type | varchar(50) | NO   |     | NULL    |                |
+| price  | int         | NO   |     | NULL    |                |
+| P_id   | int         | YES  |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> ALTER TABLE orders ADD FOREIGN KEY (P_id) REFERENCES PRODUCT(P_id);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC ORDERS;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| o_id   | int         | NO   | PRI | NULL    | auto_increment |
+| 0_name | varchar(50) | NO   |     | NULL    |                |
+| o_type | varchar(50) | NO   |     | NULL    |                |
+| price  | int         | NO   |     | NULL    |                |
+| P_id   | int         | YES  | MUL | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> create table branch(b_id int(10) PRIMARY KEY NOT NULL ,b_name varchar(50) NOT NULL ,
+    -> b_location varchar(50) NOT NULL);
+Query OK, 0 rows affected, 1 warning (0.06 sec)
+
+mysql> create table supliers(s_id int(20) PRIMARY KEY NOT NULL,s_name varchar(50) NOT NULL
+    -> ,s_location varchar (50) NOT NULL ,o_id int(20));
+Query OK, 0 rows affected, 2 warnings (0.02 sec)
+
+mysql> DESC SUPLIERS;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| s_id       | int         | NO   | PRI | NULL    |       |
+| s_name     | varchar(50) | NO   |     | NULL    |       |
+| s_location | varchar(50) | NO   |     | NULL    |       |
+| o_id       | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> ALTER TABLE supliers ADD FOREIGN KEY (o_id) REFERENCES orders(o_id);
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table time(t_id int(10) PRIMARY KEY,t_desc varchar(50));
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+
+mysql> DESC TIME;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| t_id   | int         | NO   | PRI | NULL    |       |
+| t_desc | varchar(50) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> create table customer(c_id int(05) NOT NULL ,c_name varchar (20) NOT NULL ,c_email
+    -> varchar(30) UNIQUE KEY ,c_address varchar(50) NOT NULL ,cont_number int(10) , P_id int (10),DOB
+    -> DATE );
+Query OK, 0 rows affected, 3 warnings (0.06 sec)
+
+mysql> DESC CUSTOMER;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| c_id        | int         | NO   |     | NULL    |       |
+| c_name      | varchar(20) | NO   |     | NULL    |       |
+| c_email     | varchar(30) | YES  | UNI | NULL    |       |
+| c_address   | varchar(50) | NO   |     | NULL    |       |
+| cont_number | int         | YES  |     | NULL    |       |
+| P_id        | int         | YES  |     | NULL    |       |
+| DOB         | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> ALTER TABLE customer ADD FOREIGN KEY (P_id) REFERENCES PRODUCT(P_id);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC CUSTOMER;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| c_id        | int         | NO   |     | NULL    |       |
+| c_name      | varchar(20) | NO   |     | NULL    |       |
+| c_email     | varchar(30) | YES  | UNI | NULL    |       |
+| c_address   | varchar(50) | NO   |     | NULL    |       |
+| cont_number | int         | YES  |     | NULL    |       |
+| P_id        | int         | YES  | MUL | NULL    |       |
+| DOB         | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+INSERTING DATA:
+mysql> use icecream_factory;
+Database changed
+mysql> desc product;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| P_id      | int         | NO   | PRI | NULL    | auto_increment |
+| P_name    | varchar(20) | NO   |     | NULL    |                |
+| P_cost    | int         | NO   |     | NULL    |                |
+| P_details | varchar(25) | NO   |     | NULL    |                |
+| M_date    | date        | NO   |     | NULL    |                |
+| E_date    | date        | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+6 rows in set (0.01 sec)
+
+mysql> INSERT INTO PRODUCT(101 , 'butter scotch cone' , 60 , 'THIS ICECREAM IS FOR ONE SURVE . BUTTER SCOTCH FLAVOUR' , '15.8.2023' , '15.2.2024')
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '101 , 'butter scotch cone' , 60 , 'THIS ICECREAM IS FOR ONE SURVE . BUTTER SCOTC' at line 1
+mysql> INSERT INTO PRODUCT(101 , 'butter scotch cone' , 60 , 'THIS ICECREAM IS FOR ONE SURVE.' , '15.8.2023' , '15.2.2024');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '101 , 'butter scotch cone' , 60 , 'THIS ICECREAM IS FOR ONE SURVE.' , '15.8.2023' at line 1
+mysql> INSERT INTO PRODUCT VALUES (101 , 'butter scotch cone' , 60 , 'THIS ICECREAM IS FOR ONE SURVE.' , '15.8.2023' , '15.2.2024');
+ERROR 1406 (22001): Data too long for column 'P_details' at row 1
+mysql> ALTER TABLE PRODUCT SET M_details varchar(100) WHERE M_details varchar(25);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SET M_details varchar(100) WHERE M_details varchar(25)' at line 1
+mysql> drop table product;
+ERROR 3730 (HY000): Cannot drop table 'product' referenced by a foreign key constraint 'orders_ibfk_1' on table 'orders'.
+mysql> DROP TABLE PRODUCT;
+ERROR 3730 (HY000): Cannot drop table 'product' referenced by a foreign key constraint 'orders_ibfk_1' on table 'orders'.
+mysql> ALTER TABLE PRODUCT MODIFY P_details(100);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(100)' at line 1
+mysql> ALTER TABLE PRODUCT MODIFY P_details varchar(100);
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO PRODUCT VALUES (101 , 'butter scotch cone' , 60 , 'THIS ICECREAM IS FOR ONE SURVE.' , '15.8.2023' , '15.2.2024');
+ERROR 1292 (22007): Incorrect date value: '15.2.2024' for column 'E_date' at row 1
+mysql> INSERT INTO PRODUCT VALUES (101 , 'butter scotch cone' , 60 , 'THIS ICECREAM IS FOR ONE SURVE.' , '2023-08-15' , '2024-02-15');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (102 , 'strawberry cone' , 60 , 'THIS ICECREAM IS FOR ONE SURVE. STRAWBERRY FLAVOUR' , '2023-08-15' , '2024-02-15');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (103 , 'vanilla cone' , 60 , 'THIS ICECREAM IS FOR ONE SURVE.VANILLA FLAVOUR' , '2023-08-20' , '2024-02-20');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (103 , 'blue berry cone' , 60 , 'THIS ICECREAM IS FOR ONE SURVE.BLUEBERRY FLAVOUR' , '2023-08-20' , '2024-02-20');
+ERROR 1062 (23000): Duplicate entry '103' for key 'product.PRIMARY'
+mysql> INSERT INTO PRODUCT VALUES (104 , 'blue berry cone' , 60 , 'THIS ICECREAM IS FOR ONE SURVE.BLUEBERRY FLAVOUR' , '2023-08-20' , '2024-02-20');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (105 , 'VANILLA ICECREAM' , 50, 'THIS ICECREAM IS FOR ONE SURVE. VANILLA FLAVOUR' , '2023-09-01' , '2024-03-10');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (105 , 'MAHARAJA ICECREAM' , 80, 'THIS ICECREAM IS FOR ONE SURVE. MAHARAJA FLAVOUR' , '2023-09-01' , '2024-03-10');
+ERROR 1062 (23000): Duplicate entry '105' for key 'product.PRIMARY'
+mysql> INSERT INTO PRODUCT VALUES (106 , 'MAHARAJA ICECREAM' , 80, 'THIS ICECREAM IS FOR ONE SURVE. MAHARAJA FLAVOUR' , '2023-09-01' , '2024-03-10');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (107 , 'BLACK CURRENT' , 80, 'THIS ICECREAM IS FOR ONE SURVE. BLACK CURRENT FLAVOUR' , '2023-09-09' , '2024-03-09');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (108 , 'BLUE BERRY' , 80, 'THIS ICECREAM IS FOR ONE SURVE. BLUE BERRY FLAVOUR' , '2023-09-09' , '2024-03-09');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (108 , 'LICHI' , 80, 'THIS ICECREAM IS FOR ONE SURVE. LICHI FLAVOUR' , '2023-09-10' , '2024-03-10');
+ERROR 1062 (23000): Duplicate entry '108' for key 'product.PRIMARY'
+mysql> INSERT INTO PRODUCT VALUES (109 , 'LICHI' , 80, 'THIS ICECREAM IS FOR ONE SURVE. LICHI FLAVOUR' , '2023-09-10' , '2024-03-10');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (110 , 'MANGO' , 80, 'THIS ICECREAM IS FOR ONE SURVE. MANGO FLAVOUR' , '2023-09-10' , '2024-03-10');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (111 , 'KAJU' , 180, 'FAMILY SURVE.KAJU FLAVOURED ICECREAM' , '2023-09-13' , '2024-03-13');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (112 , 'PISTA' , 180, 'FAMILY SURVE. PISTA FLAVOURED ICECREAM' , '2023-09-13' , '2024-03-13');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (113 , 'HAZELNUT' , 200, 'FAMILY SURVE. HAZELNUT FLAVOURED ICECREAM' , '2023-09-15' , '2024-03-15');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (114 , 'ROSE' , 200, 'FAMILY SURVE. ROSE FLAVOURED ICECREAM' , '2023-09-15' , '2024-03-15');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PRODUCT VALUES (115 , 'COFFEE' , 200, 'FAMILY SURVE. COFFEE FLAVOURED ICECREAM' , '2023-09-18' , '2024-03-18');
+Query OK, 1 row affected (0.01 sec)
+
+QUERIES :
+mysql> use icecream_factory;
+Database changed
+mysql> show tables
+    -> ;
++----------------------------+
+| Tables_in_icecream_factory |
++----------------------------+
+| branch                     |
+| customer                   |
+| orders                     |
+| product                    |
+| supliers                   |
+| time                       |
++----------------------------+
+6 rows in set (0.20 sec)
+
+mysql> select*from product;
++------+--------------------+--------+-------------------------------------------------------+------------+------------+
+| P_id | P_name             | P_cost | P_details                                             | M_date     | E_date     |
++------+--------------------+--------+-------------------------------------------------------+------------+------------+
+|  101 | butter scotch cone |     60 | THIS ICECREAM IS FOR ONE SURVE.                       | 2023-08-15 | 2024-02-15 |
+|  102 | strawberry cone    |     60 | THIS ICECREAM IS FOR ONE SURVE. STRAWBERRY FLAVOUR    | 2023-08-15 | 2024-02-15 |
+|  103 | vanilla cone       |     60 | THIS ICECREAM IS FOR ONE SURVE.VANILLA FLAVOUR        | 2023-08-20 | 2024-02-20 |
+|  104 | blue berry cone    |     60 | THIS ICECREAM IS FOR ONE SURVE.BLUEBERRY FLAVOUR      | 2023-08-20 | 2024-02-20 |
+|  105 | VANILLA ICECREAM   |     50 | THIS ICECREAM IS FOR ONE SURVE. VANILLA FLAVOUR       | 2023-09-01 | 2024-03-10 |
+|  106 | MAHARAJA ICECREAM  |     80 | THIS ICECREAM IS FOR ONE SURVE. MAHARAJA FLAVOUR      | 2023-09-01 | 2024-03-10 |
+|  107 | BLACK CURRENT      |     80 | THIS ICECREAM IS FOR ONE SURVE. BLACK CURRENT FLAVOUR | 2023-09-09 | 2024-03-09 |
+|  108 | BLUE BERRY         |     80 | THIS ICECREAM IS FOR ONE SURVE. BLUE BERRY FLAVOUR    | 2023-09-09 | 2024-03-09 |
+|  109 | LICHI              |     80 | THIS ICECREAM IS FOR ONE SURVE. LICHI FLAVOUR         | 2023-09-10 | 2024-03-10 |
+|  110 | MANGO              |     80 | THIS ICECREAM IS FOR ONE SURVE. MANGO FLAVOUR         | 2023-09-10 | 2024-03-10 |
+|  111 | KAJU               |    180 | FAMILY SURVE.KAJU FLAVOURED ICECREAM                  | 2023-09-13 | 2024-03-13 |
+|  112 | PISTA              |    180 | FAMILY SURVE. PISTA FLAVOURED ICECREAM                | 2023-09-13 | 2024-03-13 |
+|  113 | HAZELNUT           |    200 | FAMILY SURVE. HAZELNUT FLAVOURED ICECREAM             | 2023-09-15 | 2024-03-15 |
+|  114 | ROSE               |    200 | FAMILY SURVE. ROSE FLAVOURED ICECREAM                 | 2023-09-15 | 2024-03-15 |
+|  115 | COFFEE             |    200 | FAMILY SURVE. COFFEE FLAVOURED ICECREAM               | 2023-09-18 | 2024-03-18 |
++------+--------------------+--------+-------------------------------------------------------+------------+------------+
+15 rows in set (0.05 sec)
+
+mysql> select*from orders;
++------+-----------------------+-------------------+-------+------+
+| o_id | 0_name                | o_type            | price | P_id |
++------+-----------------------+-------------------+-------+------+
+|  201 | natural_panvel        | ROSE_FAMILY_PACK  |   200 |  114 |
+|  202 | chillout_kalyan       | MANG0_CORNETO     |   200 |  110 |
+|  203 | ice_ulwe              | VANNILA_CORNETO   |    50 |  105 |
+|  204 | snow_world_thane      | KAJU_FAMILY_PACK  |   200 |  111 |
+|  205 | havmor_bandra         | PISTA_FAMILY_PACK |   180 |  112 |
+|  206 | amul_vashi            | BUTTERSCOTCH_CONE |    60 |  101 |
+|  207 | amul_vashi            | strawberry_CONE   |    60 |  102 |
+|  208 | amul_vashi            | VANILLA_CONE      |    60 |  103 |
+|  209 | amul_vashi            | BLUEBERRY_CONE    |    60 |  104 |
+|  210 | naturals_kharghar     | LICHI             |    80 |  109 |
+|  211 | naturals_kharghar     | MANGO             |    80 |  110 |
+|  212 | Seven_eleven_kharghar | HAZELNUT          |   200 |  113 |
+|  213 | Seven_eleven_kharghar | ROSE              |   200 |  114 |
+|  214 | Seven_eleven_vashi    | COFFEE            |   200 |  115 |
+|  215 | Seven_eleven_vashi    | KAJU              |   180 |  111 |
++------+-----------------------+-------------------+-------+------+
+15 rows in set (0.07 sec)
+
+mysql> select*from branch;
++------+--------------+------------+
+| b_id | b_name       | b_location |
++------+--------------+------------+
+| 1000 | NATURALS     | PANVEL     |
+| 1001 | QUALITYWALLS | KALYAN     |
+| 1002 | HAVMOUR      | TALOJA     |
+| 1003 | NATURALS     | MUMBRA     |
+| 1004 | AMUL         | JUHU       |
+| 1005 | HAVMOUR      | VASHI      |
+| 1006 | AMUL         | PANVEL     |
+| 1007 | QUALITYWALLS | PAVAI      |
+| 1008 | CREAM BELL   | BANDRA     |
+| 1009 | CREAM BELL   | ANDHERI    |
+| 1010 | NATURALS     | PANVEL     |
++------+--------------+------------+
+11 rows in set (0.04 sec)
+
+mysql> select*from customer;
++------+------------+------------------------+-----------+-------------+------+------------+
+| c_id | c_name     | c_email                | c_address | cont_number | P_id | DOB        |
++------+------------+------------------------+-----------+-------------+------+------------+
+|    1 | MUSKAN     | muskan@ice.gmail.com   | KALYAN    |      660660 |  110 | 2002-02-26 |
+|    2 | UMME AIMAN | aiman@ice.gmail.com    | TALOJA    |      123067 |  111 | 2003-09-09 |
+|    3 | MEHVISH    | mehvish@.gmail.com     | MUMBRA    |      123147 |  115 | 2003-11-05 |
+|    4 | SANIYA     | saniya@ice.gmail.com   | MUMBAI    |      123568 |  113 | 2003-04-29 |
+|    5 | NIDA       | nida@ABC.gmail.com     | KHARGHAR  |      123852 |  101 | 2000-12-31 |
+|    6 | JUNGKOOK   | jungkook@abc.gmail.com | VASHI     |      963258 |  114 | 1997-09-01 |
+|    7 | SHABINA    | shabina@abc.gmail.com  | KALYAN    |      961538 |  109 | 1995-05-29 |
+|    8 | IMAN       | iman@abc.gmail.com     | PANVEL    |      789654 |  102 | 2006-07-18 |
+|    9 | ZIMAL      | zimal@ice.gmail.com    | BANDRA    |      789655 |  101 | 2010-04-11 |
+|   11 | ZAIN       | zain@ice.gmail.com     | PANVEL    |      125478 |  104 | 1975-01-30 |
+|   12 | ARMAN      | arman@ice.gmail.com    | KALYAN    |      125236 |  101 | 2015-11-22 |
+|   13 | WAQQAS     | waqqas@ice.gmail.com   | TALOJA    |      102356 |  114 | 2016-12-27 |
+|   14 | RAYYAN     | rayyu@coldgmail.com    | THANE     |      965056 |  115 | 2000-11-24 |
+|   15 | YASIN      | yasin@thandagmail.com  | ULWE      |      855403 |  108 | 2002-10-12 |
+|  110 | SUMBUL     | sumbul@ice.gmail.com   | JUHU      |      789115 |  105 | 2000-02-25 |
++------+------------+------------------------+-----------+-------------+------+------------+
+15 rows in set (0.04 sec)
+
+mysql> select*from supliers;
++------+--------------+------------+------+
+| s_id | s_name       | s_location | o_id |
++------+--------------+------------+------+
+|  401 | CREAM BELL   | ANDHERI    |  201 |
+|  402 | NATURALS     | PANVEL     |  202 |
+|  403 | HAVMOUR      | VASHI      |  203 |
+|  404 | CREAM BELL   | BANDRA     |  204 |
+|  405 | QUALITYWALLS | KHARGHAR   |  205 |
+|  406 | AMUL         | JUHU       |  206 |
+|  407 | NATURALS     | KALYAN     |  207 |
+|  408 | AMUL         | KALYAN     |  208 |
+|  409 | HAVMOUR      | PANVEL     |  209 |
+|  410 | QUALITYWALLS | MUMBRA     |  210 |
++------+--------------+------------+------+
+10 rows in set (0.00 sec)
+
+mysql> select*from time;
++------+------------------+
+| t_id | t_desc           |
++------+------------------+
+|   81 | SUMMER_VACATION  |
+|   82 | WEEKEND_EVENING  |
+|   83 | WEEKEND_MORNING  |
+|   84 | WEEKDAYS_MORNING |
+|   85 | WEEKDAYS_EVENING |
+|   86 | DIWALI_VACATIONS |
+|   87 | WINTER_VACATIONS |
+|   88 | MONSOON_SEASON   |
++------+------------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT SUM(price) AS total_price FROM orders WHERE p_id = 110;
++-------------+
+| total_price |
++-------------+
+|         280 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM orders WHERE p_id = 111;
++------+--------------------+------------------+-------+------+
+| o_id | 0_name             | o_type           | price | P_id |
++------+--------------------+------------------+-------+------+
+|  204 | snow_world_thane   | KAJU_FAMILY_PACK |   200 |  111 |
+|  215 | Seven_eleven_vashi | KAJU             |   180 |  111 |
++------+--------------------+------------------+-------+------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE product SET p_cost = p_cost + (p_cost* 10/ 100) WHERE p_id=104;
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from product;
++------+--------------------+--------+-------------------------------------------------------+------------+------------+
+| P_id | P_name             | P_cost | P_details                                             | M_date     | E_date     |
++------+--------------------+--------+-------------------------------------------------------+------------+------------+
+|  101 | butter scotch cone |     60 | THIS ICECREAM IS FOR ONE SURVE.                       | 2023-08-15 | 2024-02-15 |
+|  102 | strawberry cone    |     60 | THIS ICECREAM IS FOR ONE SURVE. STRAWBERRY FLAVOUR    | 2023-08-15 | 2024-02-15 |
+|  103 | vanilla cone       |     60 | THIS ICECREAM IS FOR ONE SURVE.VANILLA FLAVOUR        | 2023-08-20 | 2024-02-20 |
+|  104 | blue berry cone    |     66 | THIS ICECREAM IS FOR ONE SURVE.BLUEBERRY FLAVOUR      | 2023-08-20 | 2024-02-20 |
+|  105 | VANILLA ICECREAM   |     50 | THIS ICECREAM IS FOR ONE SURVE. VANILLA FLAVOUR       | 2023-09-01 | 2024-03-10 |
+|  106 | MAHARAJA ICECREAM  |     80 | THIS ICECREAM IS FOR ONE SURVE. MAHARAJA FLAVOUR      | 2023-09-01 | 2024-03-10 |
+|  107 | BLACK CURRENT      |     80 | THIS ICECREAM IS FOR ONE SURVE. BLACK CURRENT FLAVOUR | 2023-09-09 | 2024-03-09 |
+|  108 | BLUE BERRY         |     80 | THIS ICECREAM IS FOR ONE SURVE. BLUE BERRY FLAVOUR    | 2023-09-09 | 2024-03-09 |
+|  109 | LICHI              |     80 | THIS ICECREAM IS FOR ONE SURVE. LICHI FLAVOUR         | 2023-09-10 | 2024-03-10 |
+|  110 | MANGO              |     80 | THIS ICECREAM IS FOR ONE SURVE. MANGO FLAVOUR         | 2023-09-10 | 2024-03-10 |
+|  111 | KAJU               |    180 | FAMILY SURVE.KAJU FLAVOURED ICECREAM                  | 2023-09-13 | 2024-03-13 |
+|  112 | PISTA              |    180 | FAMILY SURVE. PISTA FLAVOURED ICECREAM                | 2023-09-13 | 2024-03-13 |
+|  113 | HAZELNUT           |    200 | FAMILY SURVE. HAZELNUT FLAVOURED ICECREAM             | 2023-09-15 | 2024-03-15 |
+|  114 | ROSE               |    200 | FAMILY SURVE. ROSE FLAVOURED ICECREAM                 | 2023-09-15 | 2024-03-15 |
+|  115 | COFFEE             |    200 | FAMILY SURVE. COFFEE FLAVOURED ICECREAM               | 2023-09-18 | 2024-03-18 |
++------+--------------------+--------+-------------------------------------------------------+------------+------------+
+15 rows in set (0.00 sec)
+
+mysql> SELECT t.* 
+    -> FROM time t
+    -> WHERE DATE(t.timestamp) = '<desired_date>';
+ERROR 1054 (42S22): Unknown column 't.timestamp' in 'where clause'
+mysql> SELECT c.*, p.*
+    -> FROM customer c
+    -> JOIN orders o ON c.c_id = o.customer_id
+    -> JOIN product p ON o.product_id = p.product_id
+    -> WHERE p.e_date <= CURDATE() + INTERVAL 7 DAY;
+ERROR 1054 (42S22): Unknown column 'o.product_id' in 'on clause'
+mysql> SELECT c.*, p.*
+    -> FROM customer c
+    -> JOIN orders o ON c.c_id = o.customer_id
+    -> JOIN product p ON o.product_id = p.product_id
+    -> WHERE p.e_date <= CURDATE() + INTERVAL 7 DAY;
+ERROR 1054 (42S22): Unknown column 'o.product_id' in 'on clause'
+mysql> SELECT c.*, p.* FROM customer c JOIN orders o ON c.c_id = o.o_id JOIN product p ON o.p_id = p.p_id WHERE p.e_date <= CURDATE 7 DAY;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '7 DAY' at line 1
+mysql> SELECT c.*, p.* FROM customer c JOIN orders o ON c.c_id = o.o_id JOIN product p ON o.p_id = p.p_id WHERE p.e_date <= CURDATE() + 7 DAY;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DAY' at line 1
+mysql> SELECT c.*, p.* FROM customer c JOIN orders o ON c.c_id = o.o_id JOIN product p ON o.p_id = p.p_id WHERE p.e_date <= CURDATE() + INTERVAL 7 DAY;
+Empty set (0.04 sec)
+
+mysql> SELECT c.*, p.* FROM customer c JOIN orders o ON c.c_id = o.o_id JOIN product
+    -> ^C
+mysql> SELECT o.*, c.*, p.*
+    -> FROM orders o
+    -> JOIN customer c ON o.customer_id = c.c_id
+    -> JOIN product p ON o.product_id = p.product_id
+    -> WHERE c.c_id = <desired_customer_id>;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<desired_customer_id>' at line 5
+mysql> WHERE c.c_id = 110;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE c.c_id = 110' at line 1
+mysql> SELECT o.*, c.*, p.*
+    -> FROM orders o
+    -> JOIN customer c ON o.customer_id = c.c_id
+    -> JOIN product p ON o.product_id = p.product_id
+    -> WHERE c.c_id = <desired_customer_id>;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<desired_customer_id>' at line 5
+mysql> SELECT o.*, c.*, p.* FROM orders o JOIN customer c ON o.c_id = c.c_id JOIN product p ON o.p_id = p.p_id WHERE c.c_id = 110;
+ERROR 1054 (42S22): Unknown column 'o.c_id' in 'on clause'
+mysql> SELECT o.*, c.*, p.* FROM orders o JOIN customer c ON o.o_id = c.c_id JOIN product p ON o.p_id = p.p_id WHERE c.c_id = 110;
+Empty set (0.03 sec)
+
+mysql> INSERT INTO orders VALUES (110,'amul_panvel','mango',80,110 );
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT o.*, c.*, p.* FROM orders o JOIN customer c ON o.o_id = c.c_id JOIN product p ON o.p_id = p.p_id WHERE c.c_id = 110;
++------+-------------+--------+-------+------+------+--------+----------------------+-----------+-------------+------+------------+------+--------+--------+-----------------------------------------------+------------+------------+
+| o_id | 0_name      | o_type | price | P_id | c_id | c_name | c_email              | c_address | cont_number | P_id | DOB        | P_id | P_name | P_cost | P_details                                     | M_date     | E_date     |
++------+-------------+--------+-------+------+------+--------+----------------------+-----------+-------------+------+------------+------+--------+--------+-----------------------------------------------+------------+------------+
+|  110 | amul_panvel | mango  |    80 |  110 |  110 | SUMBUL | sumbul@ice.gmail.com | JUHU      |      789115 |  105 | 2000-02-25 |  110 | MANGO  |     80 | THIS ICECREAM IS FOR ONE SURVE. MANGO FLAVOUR | 2023-09-10 | 2024-03-10 |
++------+-------------+--------+-------+------+------+--------+----------------------+-----------+-------------+------+------------+------+--------+--------+-----------------------------------------------+------------+------------+
+1 row in set (0.00 sec)
+
+
+
+
+
