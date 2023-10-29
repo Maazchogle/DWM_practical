@@ -1,0 +1,59 @@
+Experiment No. 7
+
+Aim: Implementation of clustering algorithm (K-means)
+
+
+Theory:
+K means is one of the most popular Unsupervised Machine Learning Algorithms Used
+for Solving Classification Problems in data science and is very important if you are
+aiming for a data scientist role. K Means segregates the unlabeled data into various
+groups, called clusters, based on having similar features and common patterns. This
+tutorial will teach you the definition and applications of clustering, focusing on the K
+means clustering algorithm and its implementation in Python. It will also tell you how
+to choose the optimum number of clusters for a dataset.
+
+What is k-means Clustering?
+K means clustering is the simplest clustering algorithm. In the K-Clustering algorithm,
+the dataset is partitioned into K clusters. An objective function is used to find the quality
+of partitions so that similar objects are in one cluster and dissimilar objects in other
+groups. In this method, the centroid of a cluster is found to represent a cluster. The
+centroid is taken as the center of the cluster which is calculated as the mean value of
+points within the cluster. Now the quality of clustering is found by measuring the
+Euclidean distance between the point and center. This distance should be maximum.
+
+Implementation of the K-Means Algorithm:
+Step 1: Select the value of K to decide the number of clusters (n_clusters) to be formed.
+Step 2: Select random K points that will act as cluster centroids (cluster_centers).
+Step 3: Assign each data point, based on their distance from the randomly selected
+points (Centroid), to the nearest/closest centroid, which will form the predefined
+clusters.
+Step 4: Place a new centroid of each cluster.
+Step 5: Repeat step no.3, which reassigns each datapoint to the new closest centroid of
+each cluster.
+Step 6: If any reassignment occurs, then go to step 4; else, go to step 7.
+Step 7: Finish
+
+Program:
+import pandas as pd
+import matplotlib.pyplot as plt
+# Reading the database
+data = pd.read_csv('cluster.csv')
+print("\n")
+# Printing the data
+print(data.head())
+plt.title('K-means Algorithm')
+plt.scatter(data['Longitude'],data['Latitude'])
+plt.xlim(-180,180)
+plt.ylim(-90,90)
+# Adding the legends
+plt.show()
+
+Output:
+
+Conclusion:
+In conclusion, K-means clustering is a key unsupervised machine learning algorithm
+widely used in data science for classification. It divides unlabeled data into clusters
+based on similar features and patterns. The goal is to optimize clustering quality,
+ensuring similar objects are in one cluster and dissimilar ones in separate clusters.
+This is achieved by computing centroids (cluster centers) as mean values of cluster
+points and using the Euclidean distance to evaluate clustering quality..
